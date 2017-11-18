@@ -1,0 +1,41 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %title TaskManager
+    = stylesheet_link_tag  'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to 'TaskManager', root_path, :class => 'navbar-brand'
+        #navbar.collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            %li
+              = link_to 'Задачи', root_path
+            - if current_user
+              %li
+                = link_to 'Мои задачи', user_tasks_path(current_user)
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              - if current_user
+                = link_to 'Выйти', session_path(current_user), method: :delete
+              - else
+                = link_to 'Войти', new_session_path
+    / /.nav-collapse
+    .container
+      = render 'layouts/messages'
+      = yield
+      / Site footer
+      %footer.footer
+        %p
